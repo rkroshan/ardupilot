@@ -115,6 +115,8 @@ public:
         return false;
     }
 
+    virtual void watchdog_pat(void) {}
+
 private:
 
     AP_HAL::Proc _delay_cb;
