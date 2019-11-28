@@ -146,6 +146,20 @@ class generate_apj(Task.Task):
     def run(self):
         import json, time, base64, zlib
         img = open(self.inputs[0].abspath(),'rb').read()
+        #sign the image if key declared
+        if len(self.inputs) >= 2:
+            from Crypto.Signature import DSS
+            from Crypto.PublicKey import ECC
+            from Crypto.Hash import SHA256
+            key = ECC.import_key(open(self.inputs[1].abspath(), "r").read())
+            while len(img) % 4 != 0:
+                img += '\0'
+            digest = SHA256.new(img)
+            signer = DSS.new(key, 'fips-186-3')
+            signature = signer.sign(digest)
+            img += signature
+            import binascii
+
         d = {
             "board_id": int(self.env.APJ_BOARD_ID),
             "magic": "APJFWv1",
@@ -202,8 +216,11 @@ def chibios_firmware(self):
 
     generate_bin_task = self.create_task('generate_bin', src=link_output, tgt=bin_target)
     generate_bin_task.set_run_after(self.link_task)
-
-    generate_apj_task = self.create_task('generate_apj', src=bin_target, tgt=apj_target)
+    if len(self.env.SECURE_KEY) > 0 and not self.env.BOOTLOADER:
+        secure_key_pem = self.bld.srcnode.make_node(self.env.SECURE_KEY)
+        generate_apj_task = self.create_task('generate_apj', src=[bin_target,secure_key_pem], tgt=apj_target)
+    else:
+        generate_apj_task = self.create_task('generate_apj', src=bin_target, tgt=apj_target)
     generate_apj_task.set_run_after(generate_bin_task)
 
     if self.env.BUILD_ABIN:
