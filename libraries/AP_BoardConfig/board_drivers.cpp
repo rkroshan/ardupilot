@@ -294,7 +294,7 @@ void AP_BoardConfig::check_cubeblack(void)
 void AP_BoardConfig::board_autodetect(void)
 {
 #if defined(HAL_CHIBIOS_ARCH_CUBEBLACK)
-    check_cubeblack();
+    //check_cubeblack();
     return;
 #endif
 
