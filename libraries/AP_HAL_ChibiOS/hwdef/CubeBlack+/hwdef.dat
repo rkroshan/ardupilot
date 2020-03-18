@@ -14,4 +14,5 @@ IMU Invensensev2 SPI:icm20948_ext ROTATION_PITCH_180
 IMU Invensense SPI:mpu9250 ROTATION_YAW_270
 
 undef ROMFS
+define HAL_BOARD_TYPE_CUBEBLACKPLUS
 ROMFS io_firmware.bin Tools/IO_Firmware/iofirmware_highpolh.bin
