@@ -130,6 +130,7 @@ void *HALSITL::Util::heap_realloc(void *heap_ptr, void *ptr, size_t new_size)
 
 #endif // ENABLE_HEAP
 
+#if !defined(HAL_BUILD_AP_PERIPH)
 enum AP_HAL::Util::safety_state HALSITL::Util::safety_switch_state(void)
 {
     const SITL::SITL *sitl = AP::sitl();
@@ -138,3 +139,4 @@ enum AP_HAL::Util::safety_state HALSITL::Util::safety_switch_state(void)
     }
     return sitl->safety_switch_state();
 }
+#endif
