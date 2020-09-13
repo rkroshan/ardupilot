@@ -62,7 +62,6 @@ void *malloc(size_t size);
 void *calloc(size_t nmemb, size_t size);
 void *realloc (void *addr, size_t size);
 void free(void *addr);
-void show_gen_printf(const char* chr);
 #ifdef __cplusplus
 }
 #endif
@@ -72,5 +71,4 @@ void show_gen_printf(const char* chr);
 #define XREALLOC(p,n,h,t) realloc( (p) , (n) )
 #define XMALLOC(s,h,t) malloc(s)
 #define XFREE(p,h,t)   free(p)
-#define SHOW_GEN        1
 #endif
